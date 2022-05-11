@@ -3,6 +3,8 @@ scalar DateTime
 type Query {
   avos: [Avocado]!
   avo(id: ID!): Avocado
+  energies: [Energy]!
+  energy(id: ID!): Energy
 }
 
 type Mutation {
@@ -44,4 +46,18 @@ input AvoCreateInput {
   shape: String
   hardiness: String
   taste: String
+}
+
+type Energy implements BaseModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  deletedAt: DateTime
+
+  name: String!
+  year: String!
+  month: String!
+  energyType: String!
+  consumption: Int!
+  unit: String!
 }

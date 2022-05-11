@@ -1,5 +1,4 @@
 import { Express } from 'express';
-import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql'; // ES6
 const { graphqlHTTP } = require('express-graphql');
 import resolvers from '../resolvers';
 import path from 'path';
@@ -8,23 +7,14 @@ const { buildSchema } = require('graphql');
 
 const typeDefs = readFileSync(path.resolve(__dirname, '../schema.graphql'), 'utf8');
 
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve() {
-          return 'world';
-        }
-      }
-    }
-  })
-});
+//import * as avo from '../modules/avocado/avocado.resolver'
 
-console.log('schema', schema);
-
-console.log('resolvers', buildSchema(typeDefs));
+/* var root = {
+  hello: () => {
+    return 'Hello world!';
+  },
+  avo: avo.findOne
+}; */
 
 export const register = (application: Express) => {
   application.use(
