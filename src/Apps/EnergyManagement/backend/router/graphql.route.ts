@@ -1,12 +1,12 @@
 import { Express } from 'express';
 import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql'; // ES6
-const { graphqlHTTP } = require('express-graphql')
+const { graphqlHTTP } = require('express-graphql');
 import resolvers from '../resolvers';
-//import path from 'path';
-//import { readFileSync } from 'fs';
-//const { buildSchema } = require('graphql');
+import path from 'path';
+import { readFileSync } from 'fs';
+const { buildSchema } = require('graphql');
 
-//const typeDefs = readFileSync(path.resolve(__dirname, '../schema.graphql'), 'utf8');
+const typeDefs = readFileSync(path.resolve(__dirname, '../schema.graphql'), 'utf8');
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -15,24 +15,24 @@ const schema = new GraphQLSchema({
       hello: {
         type: GraphQLString,
         resolve() {
-          return 'world'
-        },
-      },
-    },
-  }),
-})
+          return 'world';
+        }
+      }
+    }
+  })
+});
 
-console.log('schema',schema)
+console.log('schema', schema);
 
-//const schema = new GraphQLSchema(resolvers)
+console.log('resolvers', buildSchema(typeDefs));
 
 export const register = (application: Express) => {
-  console.log(resolvers)
   application.use(
     '/graphql',
     graphqlHTTP({
-      schema: schema,
-      graphiql: true,
+      schema: buildSchema(typeDefs),
+      rootValue: resolvers,
+      graphiql: true
     })
   );
 };
